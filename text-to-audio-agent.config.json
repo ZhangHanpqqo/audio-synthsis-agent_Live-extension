@@ -1,0 +1,11 @@
+{
+  "fishApiKey": "cacf8dc10ad84af991697791fb4e746a",
+  "fishApiEndpoint": "https://api.fish.audio/v1/tts",
+  "fishModel": "s2-pro",
+  "fishAudioFormat": "wav",
+  "fishSampleRate": 44100,
+  "fishTemperature": 0.7,
+  "fishTopP": 0.7,
+  "fishSpeed": 1,
+  "fishOutputDirectory": "generated"
+}

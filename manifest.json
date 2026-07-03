@@ -1,0 +1,7 @@
+{
+    "name": "audio-synthsis-agent-live-extension",
+    "author": "Han Zhang",
+    "entry": "dist/extension.js",
+    "version": "1.0.0",
+    "minimumApiVersion": "1.0.0"
+}
