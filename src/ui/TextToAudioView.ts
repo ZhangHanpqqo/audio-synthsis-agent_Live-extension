@@ -34,30 +34,50 @@ export function createTextToAudioDialogHtml(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Text to Audio Agent</title>
+    <title>Text to Audio Agent with Fish Audio</title>
     <style>
       :root {
-        color-scheme: light dark;
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-        background: #f6f6f3;
-        color: #151515;
+        --theme: rgb(211, 39, 93);
+        --theme-soft: rgba(211, 39, 93, 0.2);
+        --theme-line: rgba(211, 39, 93, 0.68);
+        --theme-faint: rgba(211, 39, 93, 0.14);
+        --text: #ffffff;
+        --muted: rgba(255, 255, 255, 0.68);
+        --panel: #080808;
+        --black: #000000;
+        color-scheme: dark;
+        font-family: "Courier New", Courier, monospace;
+        background: var(--black);
+        color: var(--text);
       }
 
       * {
         box-sizing: border-box;
+        font-family: inherit;
       }
 
       body {
         margin: 0;
         min-height: 100vh;
+        background: var(--black);
+        color: var(--text);
       }
 
       main {
         display: grid;
-        gap: 14px;
-        padding: 18px;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      h1 {
+        margin: 0;
+        border-bottom: 1px solid var(--theme-line);
+        color: var(--theme);
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: 1.15;
+        padding-bottom: 12px;
       }
 
       label {
@@ -65,24 +85,37 @@ export function createTextToAudioDialogHtml(
         gap: 6px;
         font-size: 12px;
         font-weight: 650;
-        color: #3d3d38;
+        color: var(--text);
       }
 
       textarea,
       input,
       select {
         width: 100%;
-        border: 1px solid #bebeb8;
+        border: 1px solid var(--theme-line);
         border-radius: 6px;
-        background: #ffffff;
-        color: #151515;
+        background: var(--theme-soft);
+        color: var(--text);
         font: inherit;
         font-size: 13px;
-        padding: 9px 10px;
+        outline: none;
+        padding: 10px 11px;
+      }
+
+      textarea:focus,
+      input:focus,
+      select:focus {
+        border-color: var(--theme);
+        box-shadow: 0 0 0 2px var(--theme-faint);
+      }
+
+      textarea::placeholder,
+      input::placeholder {
+        color: var(--muted);
       }
 
       textarea {
-        min-height: 188px;
+        min-height: 176px;
         resize: vertical;
         line-height: 1.45;
       }
@@ -102,42 +135,46 @@ export function createTextToAudioDialogHtml(
       .drop-zone {
         display: grid;
         gap: 4px;
-        min-height: 76px;
+        min-height: 82px;
         place-content: center;
-        border: 1px dashed #8f8f87;
+        border: 1px dashed var(--theme-line);
         border-radius: 6px;
-        background: #ffffff;
-        color: #53534e;
+        background: var(--theme-faint);
+        color: var(--muted);
         font-size: 12px;
         text-align: center;
       }
 
       .drop-zone.dragging {
-        border-color: #1f1f1c;
-        background: #eeeeea;
-        color: #151515;
+        border-color: var(--theme);
+        background: rgba(211, 39, 93, 0.24);
+        color: var(--text);
       }
 
       .drop-zone strong {
-        color: #151515;
+        color: var(--text);
         font-size: 13px;
       }
 
       button {
-        border: 1px solid #1f1f1c;
+        border: 1px solid var(--theme);
         border-radius: 6px;
-        background: #1f1f1c;
-        color: white;
+        background: var(--theme);
+        color: var(--black);
         font: inherit;
         font-weight: 700;
-        padding: 9px 12px;
+        padding: 10px 13px;
         cursor: pointer;
       }
 
       button.secondary {
-        border-color: #b7b7b0;
-        background: #ffffff;
-        color: #151515;
+        border-color: var(--theme-line);
+        background: transparent;
+        color: var(--text);
+      }
+
+      button:hover {
+        filter: brightness(1.08);
       }
 
       .actions {
@@ -148,64 +185,39 @@ export function createTextToAudioDialogHtml(
         display: grid;
         gap: 10px;
         padding: 12px;
-        border: 1px solid #d8d8d0;
-        border-radius: 8px;
-        background: #ffffff;
+        border: 1px solid var(--theme-line);
+        border-radius: 6px;
+        background: var(--panel);
       }
 
       .settings .hint {
         font-size: 12px;
-        color: #57574f;
+        color: var(--muted);
       }
 
       #status {
         min-height: 20px;
-        color: #53534e;
+        color: var(--muted);
         font-size: 12px;
       }
 
       #status.error {
-        color: #b42318;
+        color: var(--theme);
       }
 
-      @media (prefers-color-scheme: dark) {
-        :root {
-          background: #20201d;
-          color: #f4f4ef;
-        }
-
-        label {
-          color: #ddddd4;
-        }
-
-        textarea,
-        input,
-        select,
-        button.secondary,
-        .drop-zone,
-        .settings {
-          border-color: #55554f;
-          background: #2b2b27;
-          color: #f4f4ef;
-        }
-
-        .drop-zone.dragging {
-          border-color: #f4f4ef;
-          background: #363631;
-        }
-
-        .drop-zone strong {
-          color: #f4f4ef;
-        }
-
-        #status {
-          color: #c4c4bc;
-        }
+      footer {
+        border-top: 1px solid var(--theme-line);
+        color: var(--muted);
+        font-size: 11px;
+        padding-top: 10px;
+        text-align: right;
       }
     </style>
   </head>
   <body>
     <main>
+      <h1>Text to Audio Agent with Fish Audio</h1>
+
       <label>
         Text
         <textarea id="text" placeholder="Type or load text to generate speech."></textarea>
@@ -281,6 +293,8 @@ export function createTextToAudioDialogHtml(
         <button class="secondary" id="cancel" type="button">Cancel</button>
         <button id="generate" type="button">Generate Audio</button>
       </div>
+
+      <footer>by N6ZHH</footer>
     </main>
 
     <script>
